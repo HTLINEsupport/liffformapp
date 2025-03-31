@@ -136,9 +136,10 @@
                 return; // Stop execution
             }
 
+            // Send the message using LIFF API
             liff.sendMessages([{
                 'type': 'text',
-                'text': text
+                'text': text // The message content (already formatted as values separated by newlines)
             }]).then(function () {
                 // Close LIFF window after successful sending
                 liff.closeWindow();
@@ -165,26 +166,12 @@
                 const department = $('input[name="department"]').val();
                 const subject = $('input[name="subject"]').val();
                 const description = $('input[name="description"]').val();
-                const systemType = $('select[name="system_type"]').val(); // Optional field
+                const systemType = $('select[name="system_type"]').val() || ''; // Use empty string if null/undefined
                 const dueDate = $('input[name="due_date"]').val();
-                const remarks = $('input[name="remarks"]').val(); // Optional field
+                const remarks = $('input[name="remarks"]').val() || ''; // Use empty string if null/undefined
 
-                // Construct the message string
-                // Added checks for optional fields to avoid sending "null" or empty strings if not filled
-                const msg = `【Urgent Inquiry】
--------------------------
-Employee No.: ${employeeNo}
-Name: ${name}
-Department: ${department}
-System Type: ${systemType ? systemType : 'N/A'}
-Subject: ${subject}
--------------------------
-Description:
-${description}
--------------------------
-Required Due Date: ${dueDate}
-Remarks: ${remarks ? remarks : 'N/A'}
--------------------------`;
+                // Construct the message string: ONLY include the input values, separated by newlines.
+                const msg = `${employeeNo}\n${name}\n${department}\n${subject}\n${description}\n${systemType}\n${dueDate}\n${remarks}`;
 
                 // Call LIFF sendMessages function
                 sendText(msg);
