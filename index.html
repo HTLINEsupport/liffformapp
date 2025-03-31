@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HT/HANA Urgent Inquiry Form</title>
+    
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/themes/base/jquery-ui.min.css">
+    <style>
+        /* Add some basic styling */
+        body {
+            padding-top: 20px; /* Add padding at the top */
+            padding-bottom: 20px; /* Add padding at the bottom */
+        }
+        .form-control:focus {
+            border-color: #80bdff;
+            box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+        }
+        .btn-primary {
+            background-color: #007bff;
+            border-color: #007bff;
+        }
+        /* Style for required mark */
+        .required-mark {
+            color: red;
+            margin-left: 3px;
+        }
+    </style>
+</head>
+<body>
+
+    <form class="w-75 mx-auto">
+        <p class="mt-3">Employee No.<span class="required-mark">*</span></p>
+        <div>
+            <input class="form-control w-100 mt-1" name="employee_no" placeholder="Enter Employee No." required>
+        </div>
+
+        <p class="mt-3">Name<span class="required-mark">*</span></p>
+        <div>
+            <input class="form-control w-100 mt-1" name="name" placeholder="Enter Name" required>
+        </div>
+
+        <p class="mt-3">Department<span class="required-mark">*</span></p>
+        <div>
+            <input class="form-control w-100 mt-1" name="department" placeholder="Enter Department" required>
+        </div>
+
+        <p class="mt-3">Subject<span class="required-mark">*</span></p>
+        <div>
+            <input class="form-control w-100 mt-1" name="subject" placeholder="Enter Subject" required>
+        </div>
+
+        <p class="mt-3">Description<span class="required-mark">*</span></p>
+        <div>
+            <input type="text" class="form-control w-100 mt-1" name="description" placeholder="Enter Description" required>
+        </div>
+
+        <p class="mt-3">System Type</p>
+        <div>
+            <select class="form-control w-100 mt-1" name="system_type">
+                <option value="" disabled selected>Please select</option>
+                <option value="Plant&Log">Plant&Log</option>
+                <option value="Purchasing">Purchasing</option>
+                <option value="Inventory">Inventory</option>
+                <option value="Costing">Costing</option>
+                <option value="Accounting">Accounting</option>
+                <option value="Sales&Log">Sales&Log</option>
+            </select>
+        </div>
+
+        <p class="mt-3">Required Due Date<span class="required-mark">*</span></p>
+        <div>
+            <input class="form-control w-100 mt-1" name="due_date" type="date" required>
+        </div>
+
+        <p class="mt-3">Remarks</p>
+        <div>
+            <input class="form-control w-100 mt-1" name="remarks" placeholder="Enter Remarks">
+        </div>
+
+        <input type="submit" class="mt-4 btn btn-primary" value="Send">
+    </form>
+
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" crossorigin="anonymous"></script>
+    <script charset="utf-8" src="https://static.line-scdn.net/liff/edge/2.1/sdk.js"></script>
+    <script>
+        $(document).ready(function () {
+            // Set LIFF ID
+            const liffId = "2007165730-oGx3QNkX"; // Your LIFF ID
+            initializeLiff(liffId);
+        });
+
+        // Function to initialize LIFF
+        function initializeLiff(liffId) {
+            liff.init({
+                liffId: liffId
+            }).then(() => {
+                // Initialize app after successful LIFF initialization
+                initializeApp();
+                console.log('LIFF Initialization succeeded.');
+            }).catch((err) => {
+                // Error handling
+                console.log('LIFF Initialization failed ', err);
+                // Optionally, display an error message to the user
+                // alert('LIFF initialization failed.');
+            });
+        }
+
+        // Function to initialize the application (add further logic if needed)
+        function initializeApp() {
+            // Example: Check login status
+            if (!liff.isLoggedIn()) {
+                // Actions if not logged in (e.g., prompt login)
+                // liff.login();
+            } else {
+                // Actions if logged in (e.g., get user profile)
+                liff.getProfile().then(profile => {
+                    console.log('User Profile:', profile);
+                    // Example: Pre-fill fields like name
+                    // $('input[name="name"]').val(profile.displayName);
+                }).catch(err => console.error('Error getting profile', err));
+            }
+        }
+
+        // Function to send text message via LIFF
+        function sendText(text) {
+            // Check if running in LIFF browser
+            if (!liff.isInClient()) {
+                console.log('This function is only available in LIFF browser.');
+                alert('Please open this page in the LINE app.'); // Notify user
+                return; // Stop execution
+            }
+
+            liff.sendMessages([{
+                'type': 'text',
+                'text': text
+            }]).then(function () {
+                // Close LIFF window after successful sending
+                liff.closeWindow();
+            }).catch(function (error) {
+                // Error handling for sending message
+                console.error('Failed to send message: ', error);
+                window.alert('Failed to send message: ' + error);
+            });
+        }
+
+        // Get URL parameters (kept from original code, currently unused)
+        const params = (new URL(document.location)).searchParams;
+        const key = params.get('key'); // Get 'key' parameter
+
+        // Form submission handling
+        $(function () {
+            $('form').submit(function (event) {
+                // Prevent default form submission
+                event.preventDefault();
+
+                // Get values from form fields
+                const employeeNo = $('input[name="employee_no"]').val();
+                const name = $('input[name="name"]').val();
+                const department = $('input[name="department"]').val();
+                const subject = $('input[name="subject"]').val();
+                const description = $('input[name="description"]').val();
+                const systemType = $('select[name="system_type"]').val(); // Optional field
+                const dueDate = $('input[name="due_date"]').val();
+                const remarks = $('input[name="remarks"]').val(); // Optional field
+
+                // Construct the message string
+                // Added checks for optional fields to avoid sending "null" or empty strings if not filled
+                const msg = `【Urgent Inquiry】
+-------------------------
+Employee No.: ${employeeNo}
+Name: ${name}
+Department: ${department}
+System Type: ${systemType ? systemType : 'N/A'}
+Subject: ${subject}
+-------------------------
+Description:
+${description}
+-------------------------
+Required Due Date: ${dueDate}
+Remarks: ${remarks ? remarks : 'N/A'}
+-------------------------`;
+
+                // Call LIFF sendMessages function
+                sendText(msg);
+
+                // Return false to prevent traditional form submission
+                return false;
+            });
+        });
+
+    </script>
+
+</body>
+</html>
