@@ -1,127 +1,260 @@
 <!DOCTYPE html>
-<html>
+<html lang="ja">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>HT/HANA Urgent Inquiry Form</title>
     
+    
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"> 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/themes/base/jquery-ui.min.css">
+    
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
     <style>
-        /* Add some basic styling */
+        /* --- Enhanced Modern UI (Icons Removed) --- */
         body {
-            padding-top: 20px; /* Add padding at the top */
-            padding-bottom: 20px; /* Add padding at the bottom */
+            font-family: 'Inter', sans-serif;
+            /* Subtle gradient background */
+            background: linear-gradient(120deg, #f8f9fa 0%, #e9ecef 100%);
+            padding-top: 30px;
+            padding-bottom: 30px;
+            min-height: 100vh;
+        }
+
+        .form-container {
+            max-width: 600px;
+            margin: auto;
+            background-color: #ffffff;
+            padding: 30px 40px;
+            border-radius: 16px;
+            /* Softer shadow */
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.07);
+        }
+
+        /* Form Title */
+        .form-title {
+            font-weight: 700;
+            color: #343a40;
+            margin-bottom: 2rem;
+            text-align: center;
+            position: relative;
+            padding-bottom: 10px;
+        }
+        /* タイトルの下線 */
+        .form-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 50px;
+            height: 3px;
+            background-color: #007bff;
+            border-radius: 2px;
+        }
+
+
+        /* Labels (Icons Removed) */
+        label {
+            font-weight: 600;
+            color: #495057;
+            margin-bottom: 0.6rem;
+            display: block; /* Changed from flex back to block */
+        }
+        /* Removed label .fa styles */
+
+        /* Form Controls */
+        .form-control {
+            border-radius: 10px;
+            border: 1px solid #ced4da;
+            padding: 0.85rem 1.1rem;
+            transition: border-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+            height: auto;
+            background-color: #fff;
         }
         .form-control:focus {
-            border-color: #80bdff;
-            box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+            border-color: #86b7fe;
+            box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
+            background-color: #fff;
         }
-        .btn-primary {
-            background-color: #007bff;
-            border-color: #007bff;
+
+        /* Custom Select Arrow */
+        select.form-control {
+            appearance: none;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath fill='none' stroke='%23343a40' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M2 5l6 6 6-6'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 1rem center;
+            background-size: 16px 12px;
+            padding-right: 2.5rem;
+            height: calc(1.5em + 1.7rem + 2px);
         }
-        /* Style for required mark */
+        select.form-control::-ms-expand {
+            display: none;
+        }
+
+
+        /* Form Group Spacing */
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        /* Required Mark */
         .required-mark {
-            color: red;
-            margin-left: 3px;
+            color: #dc3545;
+            margin-left: 5px;
+            font-weight: 600;
         }
+
+        /* Submit Button - Enhanced (Icons Removed) */
+        .btn-submit {
+            font-weight: 600;
+            font-size: 1.1rem;
+            padding: 0.9rem 1.5rem;
+            border-radius: 10px;
+            /* Gradient background */
+            background: linear-gradient(45deg, #007bff, #0056b3);
+            border: none;
+            color: #ffffff;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 10px rgba(0, 123, 255, 0.3);
+            /* Removed flex properties */
+            text-align: center; /* Ensure text is centered */
+        }
+        /* Removed .btn-submit .fa styles */
+        .btn-submit:hover {
+            background: linear-gradient(45deg, #0069d9, #004085);
+            box-shadow: 0 6px 15px rgba(0, 123, 255, 0.4);
+            transform: translateY(-2px);
+            color: #ffffff;
+        }
+        .btn-submit:active {
+            transform: translateY(0);
+            box-shadow: 0 3px 8px rgba(0, 123, 255, 0.2);
+            background: linear-gradient(45deg, #0056b3, #003366);
+        }
+
+        /* --- End of Enhanced Modern UI --- */
     </style>
 </head>
 <body>
 
-    <form class="w-75 mx-auto">
+    
+    <div class="form-container">
+        <h2 class="form-title">Urgent Inquiry</h2> 
 
-        
-        <p class="mt-3">Company<span class="required-mark">*</span></p>
-        <div>
-            <select class="form-control w-100 mt-1" name="company" required>
-                <option value="" disabled selected>Please select</option>
-                <option value="YTMT">YTMT</option>
-                <option value="YAS">YAS</option>
-                <option value="YTST">YTST</option>
-            </select>
-        </div>
+        <form>
 
-        
-        <p class="mt-3">Department<span class="required-mark">*</span></p>
-        <div>
-            <input class="form-control w-100 mt-1" name="department" placeholder="Enter Department" required>
-        </div>
-
-        
-        <p class="mt-3">Employee No.<span class="required-mark">*</span></p>
-        <div>
-            <input class="form-control w-100 mt-1" name="employee_no" placeholder="Enter Employee No." required>
-        </div>
-
-        
-        <p class="mt-3">Name<span class="required-mark">*</span></p>
-        <div>
-            <input class="form-control w-100 mt-1" name="name" placeholder="Enter Name" required>
-        </div>
-
-        
-        <p class="mt-3">System Name<span class="required-mark">*</span></p>
-        <div>
-            <select class="form-control w-100 mt-1" name="system_name" required>
-                <option value="" disabled selected>Please select</option>
-                <option value="HT">HT</option>
-                <option value="HANA">HANA</option>
-                <option value="Others">Others</option>
-            </select>
-        </div>
-
-        
-        <p class="mt-3">System Type<span class="required-mark">*</span></p> 
-        <div>
             
-            <select class="form-control w-100 mt-1" name="system_type" required> 
-                <option value="" disabled selected>Please select</option>
-                <option value="Plant&Log">Plant&Log</option>
-                <option value="Purchasing">Purchasing</option>
-                <option value="Inventory">Inventory</option>
-                <option value="Costing">Costing</option>
-                <option value="Accounting">Accounting</option>
-                <option value="Sales&Log">Sales&Log</option>
-            </select>
-        </div>
+            <div class="form-group">
+                
+                <label for="company">Company<span class="required-mark">*</span></label>
+                <select class="form-control" id="company" name="company" required>
+                    <option value="" disabled selected>Please select</option>
+                    <option value="YTMT">YTMT</option>
+                    <option value="YAS">YAS</option>
+                    <option value="YTST">YTST</option>
+                </select>
+            </div>
 
-        
-        <p class="mt-3">Function</p> 
-        <div>
             
-            <input class="form-control w-100 mt-1" name="function" placeholder="Enter Function"> 
-        </div>
+            <div class="form-group">
+                
+                <label for="department">Department<span class="required-mark">*</span></label>
+                <input class="form-control" type="text" id="department" name="department" placeholder="Enter Department" required>
+            </div>
 
-        
-        <p class="mt-3">Subject<span class="required-mark">*</span></p>
-        <div>
-            <input class="form-control w-100 mt-1" name="subject" placeholder="Enter Subject" required>
-        </div>
+            
+            <div class="form-group">
+                
+                <label for="employee_no">Employee No.<span class="required-mark">*</span></label>
+                <input class="form-control" type="text" id="employee_no" name="employee_no" placeholder="Enter Employee No." required>
+            </div>
 
-        
-        <p class="mt-3">Description<span class="required-mark">*</span></p>
-        <div>
-            <input type="text" class="form-control w-100 mt-1" name="description" placeholder="Enter Description" required>
-        </div>
+            
+            <div class="form-group">
+                
+                <label for="name">Name<span class="required-mark">*</span></label>
+                <input class="form-control" type="text" id="name" name="name" placeholder="Enter Name" required>
+            </div>
 
-        
-        <p class="mt-3">Required Due Date<span class="required-mark">*</span></p>
-        <div>
-            <input class="form-control w-100 mt-1" name="due_date" type="date" required>
-        </div>
+            
+            <div class="form-group">
+                
+                <label for="system_name">System Name<span class="required-mark">*</span></label>
+                <select class="form-control" id="system_name" name="system_name" required>
+                    <option value="" disabled selected>Please select</option>
+                    <option value="HT">HT</option>
+                    <option value="HANA">HANA</option>
+                    <option value="Others">Others</option>
+                </select>
+            </div>
 
-        
-        <p class="mt-3">Remarks</p>
-        <div>
-            <input class="form-control w-100 mt-1" name="remarks" placeholder="Enter Remarks">
-        </div>
+            
+            <div class="form-group">
+                
+                <label for="system_type">System Type<span class="required-mark">*</span></label>
+                <select class="form-control" id="system_type" name="system_type" required>
+                    <option value="" disabled selected>Please select</option>
+                    <option value="Plant&Log">Plant&Log</option>
+                    <option value="Purchasing">Purchasing</option>
+                    <option value="Inventory">Inventory</option>
+                    <option value="Costing">Costing</option>
+                    <option value="Accounting">Accounting</option>
+                    <option value="Sales&Log">Sales&Log</option>
+                </select>
+            </div>
 
-        
-        <input type="submit" class="mt-4 btn btn-primary" value="Send">
-    </form>
+            
+            <div class="form-group">
+                
+                <label for="function">Function</label>
+                <input class="form-control" type="text" id="function" name="function" placeholder="Enter Function">
+            </div>
+
+            
+            <div class="form-group">
+                
+                <label for="subject">Subject<span class="required-mark">*</span></label>
+                <input class="form-control" type="text" id="subject" name="subject" placeholder="Enter Subject" required>
+            </div>
+
+            
+            <div class="form-group">
+                
+                <label for="description">Description<span class="required-mark">*</span></label>
+                <input type="text" class="form-control" id="description" name="description" placeholder="Enter Description" required>
+            </div>
+
+            
+            <div class="form-group">
+                
+                <label for="due_date">Required Due Date<span class="required-mark">*</span></label>
+                <input class="form-control" type="date" id="due_date" name="due_date" required>
+            </div>
+
+            
+            <div class="form-group">
+                
+                <label for="remarks">Remarks</label>
+                <input class="form-control" type="text" id="remarks" name="remarks" placeholder="Enter Remarks">
+            </div>
+
+            
+            <button type="submit" class="btn btn-primary btn-block btn-submit mt-4">
+                
+                Send
+            </button>
+
+        </form>
+    </div>
 
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
@@ -201,17 +334,17 @@
                 event.preventDefault();
 
                 // Get values from form fields (order of getting doesn't affect sending order)
-                const company = $('select[name="company"]').val();
-                const department = $('input[name="department"]').val();
-                const employeeNo = $('input[name="employee_no"]').val();
-                const name = $('input[name="name"]').val();
-                const systemName = $('select[name="system_name"]').val();
-                const systemType = $('select[name="system_type"]').val(); // Now required
-                const func = $('input[name="function"]').val() || ''; // Now optional
-                const subject = $('input[name="subject"]').val();
-                const description = $('input[name="description"]').val();
-                const dueDate = $('input[name="due_date"]').val();
-                const remarks = $('input[name="remarks"]').val() || ''; // Optional field
+                const company = $('#company').val(); // Use ID selector
+                const department = $('#department').val(); // Use ID selector
+                const employeeNo = $('#employee_no').val(); // Use ID selector
+                const name = $('#name').val(); // Use ID selector
+                const systemName = $('#system_name').val(); // Use ID selector
+                const systemType = $('#system_type').val(); // Use ID selector
+                const func = $('#function').val() || ''; // Use ID selector
+                const subject = $('#subject').val(); // Use ID selector
+                const description = $('#description').val(); // Use ID selector
+                const dueDate = $('#due_date').val(); // Use ID selector
+                const remarks = $('#remarks').val() || ''; // Use ID selector
 
                 // Construct the message string according to the new specified order.
                 const msg = `${company}\n${department}\n${employeeNo}\n${name}\n${systemName}\n${systemType}\n${func}\n${subject}\n${description}\n${dueDate}\n${remarks}`;
