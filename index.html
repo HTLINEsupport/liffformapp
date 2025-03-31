@@ -32,34 +32,52 @@
 <body>
 
     <form class="w-75 mx-auto">
-        <p class="mt-3">Employee No.<span class="required-mark">*</span></p>
+
+        
+        <p class="mt-3">Company<span class="required-mark">*</span></p>
         <div>
-            <input class="form-control w-100 mt-1" name="employee_no" placeholder="Enter Employee No." required>
+            <select class="form-control w-100 mt-1" name="company" required>
+                <option value="" disabled selected>Please select</option>
+                <option value="YTMT">YTMT</option>
+                <option value="YAS">YAS</option>
+                <option value="YTST">YTST</option>
+            </select>
         </div>
 
-        <p class="mt-3">Name<span class="required-mark">*</span></p>
-        <div>
-            <input class="form-control w-100 mt-1" name="name" placeholder="Enter Name" required>
-        </div>
-
+        
         <p class="mt-3">Department<span class="required-mark">*</span></p>
         <div>
             <input class="form-control w-100 mt-1" name="department" placeholder="Enter Department" required>
         </div>
 
-        <p class="mt-3">Subject<span class="required-mark">*</span></p>
+        
+        <p class="mt-3">Employee No.<span class="required-mark">*</span></p>
         <div>
-            <input class="form-control w-100 mt-1" name="subject" placeholder="Enter Subject" required>
+            <input class="form-control w-100 mt-1" name="employee_no" placeholder="Enter Employee No." required>
         </div>
 
-        <p class="mt-3">Description<span class="required-mark">*</span></p>
+        
+        <p class="mt-3">Name<span class="required-mark">*</span></p>
         <div>
-            <input type="text" class="form-control w-100 mt-1" name="description" placeholder="Enter Description" required>
+            <input class="form-control w-100 mt-1" name="name" placeholder="Enter Name" required>
         </div>
 
-        <p class="mt-3">System Type</p>
+        
+        <p class="mt-3">System Name<span class="required-mark">*</span></p>
         <div>
-            <select class="form-control w-100 mt-1" name="system_type">
+            <select class="form-control w-100 mt-1" name="system_name" required>
+                <option value="" disabled selected>Please select</option>
+                <option value="HT">HT</option>
+                <option value="HANA">HANA</option>
+                <option value="Others">Others</option>
+            </select>
+        </div>
+
+        
+        <p class="mt-3">System Type<span class="required-mark">*</span></p> 
+        <div>
+            
+            <select class="form-control w-100 mt-1" name="system_type" required> 
                 <option value="" disabled selected>Please select</option>
                 <option value="Plant&Log">Plant&Log</option>
                 <option value="Purchasing">Purchasing</option>
@@ -70,16 +88,38 @@
             </select>
         </div>
 
+        
+        <p class="mt-3">Function</p> 
+        <div>
+            
+            <input class="form-control w-100 mt-1" name="function" placeholder="Enter Function"> 
+        </div>
+
+        
+        <p class="mt-3">Subject<span class="required-mark">*</span></p>
+        <div>
+            <input class="form-control w-100 mt-1" name="subject" placeholder="Enter Subject" required>
+        </div>
+
+        
+        <p class="mt-3">Description<span class="required-mark">*</span></p>
+        <div>
+            <input type="text" class="form-control w-100 mt-1" name="description" placeholder="Enter Description" required>
+        </div>
+
+        
         <p class="mt-3">Required Due Date<span class="required-mark">*</span></p>
         <div>
             <input class="form-control w-100 mt-1" name="due_date" type="date" required>
         </div>
 
+        
         <p class="mt-3">Remarks</p>
         <div>
             <input class="form-control w-100 mt-1" name="remarks" placeholder="Enter Remarks">
         </div>
 
+        
         <input type="submit" class="mt-4 btn btn-primary" value="Send">
     </form>
 
@@ -160,18 +200,21 @@
                 // Prevent default form submission
                 event.preventDefault();
 
-                // Get values from form fields
+                // Get values from form fields (order of getting doesn't affect sending order)
+                const company = $('select[name="company"]').val();
+                const department = $('input[name="department"]').val();
                 const employeeNo = $('input[name="employee_no"]').val();
                 const name = $('input[name="name"]').val();
-                const department = $('input[name="department"]').val();
+                const systemName = $('select[name="system_name"]').val();
+                const systemType = $('select[name="system_type"]').val(); // Now required
+                const func = $('input[name="function"]').val() || ''; // Now optional
                 const subject = $('input[name="subject"]').val();
                 const description = $('input[name="description"]').val();
-                const systemType = $('select[name="system_type"]').val() || ''; // Use empty string if null/undefined
                 const dueDate = $('input[name="due_date"]').val();
-                const remarks = $('input[name="remarks"]').val() || ''; // Use empty string if null/undefined
+                const remarks = $('input[name="remarks"]').val() || ''; // Optional field
 
-                // Construct the message string: ONLY include the input values, separated by newlines.
-                const msg = `${employeeNo}\n${name}\n${department}\n${subject}\n${description}\n${systemType}\n${dueDate}\n${remarks}`;
+                // Construct the message string according to the new specified order.
+                const msg = `${company}\n${department}\n${employeeNo}\n${name}\n${systemName}\n${systemType}\n${func}\n${subject}\n${description}\n${dueDate}\n${remarks}`;
 
                 // Call LIFF sendMessages function
                 sendText(msg);
